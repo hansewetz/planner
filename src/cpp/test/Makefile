@@ -1,3 +1,3 @@
-all:
+SUBDIRS = test-infra
 
-clean:
+include $(PROJECT_ROOT)/env/makerules/subdirs.rules
