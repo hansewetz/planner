@@ -1,3 +1,7 @@
-all:
+SUBDIRS = ccgen
 
-clean:
+include $(PROJECT_ROOT)/env/makerules/subdirs.rules
+
+apps: libs
+
+tests: libs

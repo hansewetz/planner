@@ -24,5 +24,5 @@ export BOOST_INC=${INSTALL_HOME}/include
 export BOOST_LIB=${INSTALL_HOME}/lib
 
 # amend exe library path
-export PATH=${INSTALL_HOME0}/bin:${INSTALL_HOME}/bin:${PATH}:${PROJECT_ROOT}/bin/bin:${PROJECT_ROOT}/bin/test
-export LD_LIBRARY_PATH=${INSTALL_HOME0}/lib64:${INSTALL_HOME}/lib64:${INSTALL_HOME}/lib64:${LD_LIBRARY_PATH}:${PROJECT_ROOT}/lib
+export PATH=${INSTALL_HOME0}/bin:${INSTALL_HOME}/bin:${PATH}:${PROJECT_ROOT}/bin/bin:${PROJECT_ROOT}/artefacts/bin
+export LD_LIBRARY_PATH=${INSTALL_HOME0}/lib:${INSTALL_HOME}/lib:${INSTALL_HOME0}/lib64:${INSTALL_HOME}/lib64:${LD_LIBRARY_PATH}:${PROJECT_ROOT}/artefacts/lib
