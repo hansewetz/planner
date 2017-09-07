@@ -4,10 +4,12 @@ LOCAL_SOTARGET  =
 LOCAL_OBJS      = ccgen.o
 
 # Control.
-LOCAL_LIBS      = -lboost_program_options -lboost_log -licuuc -licui18n -licudata
-LOCAL_LIBPATH   = 
+LOCAL_LIBS      = -lccgen \
+	                -lboost_log -lboost_program_options \
+	                -licuuc -licui18n -licudata
+LOCAL_LIBPATH   = -L${PROJECT_ROOT}/artefacts/lib
 LOCAL_INCPATH   =
-LOCAL_DEFINES   = -DBOOST_LOG_DYN_LINK -DASIO_STANDALONE -DBOOST_IOSTREAMS_NO_LIB
+LOCAL_DEFINES   = 
 LOCAL_CXXFLAGS  =
 LOCAL_CPPFLAGS  =
 LOCAL_LDFLAGS   =

@@ -1,3 +1,6 @@
+// NOTE!
+#include "ccgen/Type.h"
+
 // boost
 #include <boost/program_options.hpp>
 #include <boost/log/trivial.hpp>
@@ -18,7 +21,6 @@ void usage(po::options_description const&options){
   exit(1);
 }
 }
-
 // cmd line parameters
 namespace{
   string progname;                         // name of this program
@@ -64,6 +66,8 @@ int main(int argc,char**argv){
     if(print)printCmdlineParameters();
 
     // NOTE! Not yet done
+    ccgen::Type t("std","string",ccgen::Type::reftype_t::value);
+    cout<<t<<endl;
   }
   catch(exception const&e){
     BOOST_LOG_TRIVIAL(error)<<"caught exception: "<<e.what();

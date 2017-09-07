@@ -12,10 +12,8 @@ export GCC_ERROR_IGNORE=""
 export GCC_ERROR_IGNORE="-Wno-deprecated -Wno-register"        # we get some warnings (which are turned into errors) with c++17
 export GCC_USE_GLIBCXX11_ABI="-D_GLIBCXX_USE_CXX11_ABI=0"      # gcc5+ uses a different ABI - we must specify this to avoid link errors
   
-# Shared drive containing C++ tool chain
+# pick up gcc+libs
 export SHAREDDRIVE=/ec/dgt/shared/exodus
-
-# pick up gcc+libs from 2 locations
 export INSTALL_HOME0=${SHAREDDRIVE}/local/CppEnv-V2.0
 export INSTALL_HOME=${SHAREDDRIVE}/local/CppEnv-V1.0
 
