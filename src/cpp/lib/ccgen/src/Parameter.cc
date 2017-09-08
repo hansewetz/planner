@@ -1,9 +1,7 @@
 #include "ccgen/Parameter.h"
 #include "ccgen/Type.h"
-#include "utils/utility.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/log/trivial.hpp>
-#include <map>
 #include <iostream>
 using namespace std;
 namespace ccgen{
