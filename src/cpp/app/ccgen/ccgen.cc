@@ -1,5 +1,8 @@
 // NOTE!
+#include "ccgen/Method.h"
 #include "ccgen/Type.h"
+#include "ccgen/Parameter.h"
+#include "ccgen/Method.h"
 
 // boost
 #include <boost/program_options.hpp>
@@ -66,8 +69,11 @@ int main(int argc,char**argv){
     if(print)printCmdlineParameters();
 
     // NOTE! Not yet done
-    ccgen::Type t("std","string",ccgen::Type::reftype_t::value);
-    cout<<t<<endl;
+    auto rettype=make_shared<ccgen::Type>("std","string",ccgen::Type::reftype_t::value,true);
+    auto paramtype=make_shared<ccgen::Type>("std","string",ccgen::Type::reftype_t::value,true);
+    auto param=make_shared<ccgen::Parameter>("foo",paramtype);
+    auto meth=make_shared<ccgen::Method>("foo",rettype,vector<shared_ptr<ccgen::Parameter>>{param},true);
+    cout<<*meth<<endl;
   }
   catch(exception const&e){
     BOOST_LOG_TRIVIAL(error)<<"caught exception: "<<e.what();

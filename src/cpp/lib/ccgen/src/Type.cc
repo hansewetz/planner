@@ -17,17 +17,19 @@ map<Type::reftype_t,string>const reftype2stringmap{
 }
 // debug print operator
 ostream&operator<<(ostream&os,Type const&type){
-  os<<"nspace: "<<type.nspace()<<", name: "<<type.name()<<", reftype: "<<type.reftype2string(type.reftype());
+  os<<"nspace: "<<type.nspace()<<", name: "<<type.name()<<", reftype: "<<
+                  type.reftype2string(type.reftype())<<", isconst: "<<boolalpha<<type.isconst();
   return os;
 }
 // ctor
-Type::Type(string const&nspace,string const&name,reftype_t reftype):
-    nspace_(nspace),name_(name),reftype_(reftype){
+Type::Type(string const&nspace,string const&name,reftype_t reftype,bool isconst):
+    nspace_(nspace),name_(name),reftype_(reftype),isconst_(isconst){
 }
 // getters
 string const&Type::nspace()const noexcept{return nspace_;}
 string const&Type::name()const noexcept{return name_;}
 Type::reftype_t Type::reftype()const noexcept{return reftype_;}
+bool Type::isconst()const noexcept{return isconst_;}
 
 // convert reftype to a string
 string const&Type::reftype2string(reftype_t reftype){
