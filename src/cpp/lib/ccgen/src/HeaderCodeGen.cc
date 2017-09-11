@@ -40,6 +40,11 @@ std::ostream&HeaderCodeGen::generate(ostream&os,shared_ptr<Parameter>param){
 }
 // generate code for a method in header file
 std::ostream&HeaderCodeGen::generate(ostream&os,shared_ptr<Method>meth){
+  if(meth->vtype()==Method::virtual_t::pure||
+     meth->vtype()==Method::virtual_t::override||
+     meth->vtype()==Method::virtual_t::plainvirt){
+    os<<"virtual ";
+  }
   generate(os,meth->rettype())<<meth->name()<<"(";
   auto const&params=meth->params();
   for(auto it=begin(params);it!=end(params);++it){
@@ -47,7 +52,13 @@ std::ostream&HeaderCodeGen::generate(ostream&os,shared_ptr<Method>meth){
     if(next(it)!=end(params))os<<",";
   }
   os<<")";
-  if(meth->isconst())os<<"const;";
-  return os;
+  if(meth->isconst())os<<"const ";
+  if(meth->vtype()==Method::virtual_t::pure){
+    os<<"=0";
+  }else
+  if(meth->vtype()==Method::virtual_t::override){
+    os<<"override";
+  }
+  return os<<";";
 }
 }

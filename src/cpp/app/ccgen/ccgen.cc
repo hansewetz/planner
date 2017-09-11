@@ -16,6 +16,7 @@
 
 // namespace stuff
 using namespace std;
+using namespace ccgen;
 namespace po=boost::program_options;
 
 // NOTE! Should go into a library
@@ -71,14 +72,14 @@ int main(int argc,char**argv){
     if(print)printCmdlineParameters();
 
     // NOTE! Not yet done
-    auto rettype=make_shared<ccgen::Type>("std","string",ccgen::Type::reftype_t::value,true);
-    auto paramtype=make_shared<ccgen::Type>("std","string",ccgen::Type::reftype_t::lvalref,true);
-    auto param=make_shared<ccgen::Parameter>("foo",paramtype);
-    auto meth=make_shared<ccgen::Method>("foo",rettype,vector<shared_ptr<ccgen::Parameter>>{param},true);
-    auto attr=make_shared<ccgen::Attribute>("attr",true,paramtype);
+    auto rettype=make_shared<Type>("std","string",Type::reftype_t::value,true);
+    auto paramtype=make_shared<Type>("std","string",Type::reftype_t::lvalref,true);
+    auto param=make_shared<Parameter>("foo",paramtype);
+    auto meth=make_shared<Method>("foo",rettype,vector<shared_ptr<Parameter>>{param},true,Method::virtual_t::override);
+    auto attr=make_shared<Attribute>("attr",true,paramtype);
 
     // NOTE! test generation of code
-    shared_ptr<ccgen::CodeGen>hgen=make_shared<ccgen::HeaderCodeGen>();
+    shared_ptr<CodeGen>hgen=make_shared<HeaderCodeGen>();
     hgen->generate(cout,meth);
     cout<<endl;
   }
