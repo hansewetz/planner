@@ -3,6 +3,8 @@
 #include "ccgen/Type.h"
 #include "ccgen/Parameter.h"
 #include "ccgen/Method.h"
+#include "ccgen/Attribute.h"
+#include "ccgen/HeaderCodeGen.h"
 
 // boost
 #include <boost/program_options.hpp>
@@ -70,10 +72,15 @@ int main(int argc,char**argv){
 
     // NOTE! Not yet done
     auto rettype=make_shared<ccgen::Type>("std","string",ccgen::Type::reftype_t::value,true);
-    auto paramtype=make_shared<ccgen::Type>("std","string",ccgen::Type::reftype_t::value,true);
+    auto paramtype=make_shared<ccgen::Type>("std","string",ccgen::Type::reftype_t::lvalref,true);
     auto param=make_shared<ccgen::Parameter>("foo",paramtype);
     auto meth=make_shared<ccgen::Method>("foo",rettype,vector<shared_ptr<ccgen::Parameter>>{param},true);
-    cout<<*meth<<endl;
+    auto attr=make_shared<ccgen::Attribute>("attr",true,paramtype);
+
+    // NOTE! test generation of code
+    shared_ptr<ccgen::CodeGen>hgen=make_shared<ccgen::HeaderCodeGen>();
+    hgen->generate(cout,meth);
+    cout<<endl;
   }
   catch(exception const&e){
     BOOST_LOG_TRIVIAL(error)<<"caught exception: "<<e.what();

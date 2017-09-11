@@ -2,7 +2,7 @@
 LOCAL_TARGET    =
 LOCAL_SOTARGET  = $(PROJECT_ROOT)/artefacts/lib/libccgen.so
 LOCAL_OBJS      = Type.o Parameter.o Attribute.o Method.o \
-	                CodeGen.o
+	                CodeGen.o HeaderCodeGen.o
 
 # Control.
 LOCAL_LIBS      =
