@@ -12,6 +12,7 @@ class Attribute;
 class Parameter;
 class Function;
 class Method;
+class Class;
 
 // class representing a 'code-generator' for header files
 class HeaderCodeGen:public CodeGen{
@@ -33,6 +34,7 @@ private:
   virtual void generate(std::shared_ptr<Parameter>param)override;
   virtual void generate(std::shared_ptr<Function>func)override;
   virtual void generate(std::shared_ptr<Method>meth)override;
+  virtual void generate(std::shared_ptr<Class>cl)override;
 private:
   Emitter em_;
 };

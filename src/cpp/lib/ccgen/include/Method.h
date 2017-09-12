@@ -1,6 +1,5 @@
 #pragma once
 #include "ccgen/Function.h"
-#include "ccgen/Emitter.h"
 #include <memory>
 #include <string>
 #include <vector>
@@ -44,6 +43,5 @@ private:
   bool const isconst_;
   virtual_t vtype_;
   bool isnoexcept_;
-  Emitter em_;
 };
 }

@@ -11,6 +11,7 @@ class Parameter;
 class Attribute;
 class Function;
 class Method;
+class Class;
 
 // class representing a 'code-generator' 
 class CodeGen{
@@ -32,6 +33,7 @@ public:
   virtual void generate(std::shared_ptr<Parameter>param)=0;
   virtual void generate(std::shared_ptr<Function>func)=0;
   virtual void generate(std::shared_ptr<Method>meth)=0;
+  virtual void generate(std::shared_ptr<Class>cl)=0;
 
   // getters
   std::ostream&os()noexcept;

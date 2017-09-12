@@ -4,6 +4,7 @@
 #include "ccgen/Parameter.h"
 #include "ccgen/Function.h"
 #include "ccgen/Method.h"
+#include "ccgen/Class.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/log/trivial.hpp>
 #include <iostream>
@@ -26,7 +27,8 @@ void HeaderCodeGen::generate(shared_ptr<Type>type){
   if(type->isconst())em_.emit("const");
   if(type->reftype()==Type::reftype_t::lvalref){
     em_.emit("&");
-  }else{
+  }else
+  if(type->reftype()==Type::reftype_t::rvalref){
     em_.emit("&&");
   }
 }
@@ -77,5 +79,32 @@ void HeaderCodeGen::generate(shared_ptr<Method>meth){
     em_.emit("override");
   }
   em_.emit(";");
+}
+// generate code for a class in header file
+void HeaderCodeGen::generate(shared_ptr<Class>cl){
+  em_.emit("class");
+  em_.emit(cl->name());
+  em_.emit("{");
+  em_.nl();
+  em_.incind();
+
+  // emit methods
+  auto const&publicMethods=cl->methods(Class::visibility_t::vpublic);
+  if(publicMethods.size()){
+    em_.emit("public:",true);
+    em_.nl();
+    for(auto const&meth:publicMethods){
+      generate(meth);
+      em_.nl();
+    }
+  }
+
+
+/* NOTE!
+  auto const&protectedMethods=c->methods(Class::visibility_t::vpublic);
+  auto const&privateMethods=c->methods(Class::visibility_t::vpublic);
+*/
+  em_.decind();
+  em_.emit("};");
 }
 }

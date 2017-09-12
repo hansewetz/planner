@@ -4,6 +4,7 @@
 #include "ccgen/Parameter.h"
 #include "ccgen/Method.h"
 #include "ccgen/Attribute.h"
+#include "ccgen/Class.h"
 #include "ccgen/HeaderCodeGen.h"
 
 // boost
@@ -76,11 +77,14 @@ int main(int argc,char**argv){
     auto paramtype=make_shared<Type>("std","string",Type::reftype_t::lvalref,true);
     auto param=make_shared<Parameter>("foo",paramtype);
     auto attr=make_shared<Attribute>("attr",true,paramtype);
-    auto meth=make_shared<Method>("foo","bar",rettype,vector<shared_ptr<Parameter>>{param},true,Method::virtual_t::pure,true);
+    auto cl=make_shared<Class>("foo");
+    auto meth=make_shared<Method>(cl->name(),"bar",rettype,vector<shared_ptr<Parameter>>{param},true,Method::virtual_t::pure,true);
+    cl->addMethod(meth,Class::visibility_t::vpublic);
+    //cout<<*cl<<endl;
 
     // NOTE! test generation of code
     shared_ptr<CodeGen>hgen=make_shared<HeaderCodeGen>(cout);
-    hgen->generate(meth);
+    hgen->generate(cl);
     cout<<endl;
   }
   catch(exception const&e){

@@ -12,10 +12,10 @@ namespace ccgen{
 namespace{
 // mapping from virtual_t --> name (string)
 map<Method::virtual_t,string>const virtual2stringmap{
-  {Method::virtual_t::none,"value"},
-  {Method::virtual_t::pure,"lvalref"},
-  {Method::virtual_t::pure,"override"},
-  {Method::virtual_t::override,"plainvirt"}
+  {Method::virtual_t::none,"none"},
+  {Method::virtual_t::pure,"pure"},
+  {Method::virtual_t::override,"override"},
+  {Method::virtual_t::plainvirt,"plainvirt"}
 };
 }
 // debug print operator

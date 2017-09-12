@@ -64,13 +64,26 @@ obj: $(OBJS)
 clean:
 	rm -f $(OBJS) $(LOCAL_SOTARGET) $(LOCAL_TARGET) junk*
 
+# dependency management on header files
+# (we support dependency management from cc and c files)
+# (see: http://make.mad-scientist.net/papers/advanced-auto-dependency-generation/#nonc)
+DEPDIR = .d
+$(shell mkdir -p $(DEPDIR) >/dev/null)
+DEPFLAGS = -MT $@ -MMD -MP -MF $(DEPDIR)/$*.Td
+POSTCOMPILE=mv -f $(DEPDIR)/$*.Td $(DEPDIR)/$*.d
+
 # Compilation rules
 %.o: %.cc
+%.o: %.cc $(DEPDIR)/%.d
 	@echo "### Building $@"
-	$(CC) $(CXXFLAGS) $(CCFLAGS) $(INCPATH) $(DEFINES) -o $@ $<
+	$(CC) $(DEPFLAGS) $(CXXFLAGS) $(CCFLAGS) $(INCPATH) $(DEFINES) -o $@ $<
+	$(POSTCOMPILE)
+
 %.o: %.c
+%.o: %.c $(DEPDIR)/%.d
 	@echo "### Building $@"
-	$(CC) -x c $(CXXFLAGS) $(CFLAGS) $(INCPATH) $(DEFINES) -o $@ $<
+	$(CC) -x c $(DEPFLAGS) $(CXXFLAGS) $(CFLAGS) $(INCPATH) $(DEFINES) -o $@ $<
+	$(POSTCOMPILE)
 
 $(LOCAL_TARGET): $(OBJS)
 	@echo "### Building $@"
