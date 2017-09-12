@@ -75,12 +75,12 @@ int main(int argc,char**argv){
     auto rettype=make_shared<Type>("std","string",Type::reftype_t::value,true);
     auto paramtype=make_shared<Type>("std","string",Type::reftype_t::lvalref,true);
     auto param=make_shared<Parameter>("foo",paramtype);
-    auto meth=make_shared<Method>("foo",rettype,vector<shared_ptr<Parameter>>{param},true,Method::virtual_t::override);
     auto attr=make_shared<Attribute>("attr",true,paramtype);
+    auto meth=make_shared<Method>("foo","bar",rettype,vector<shared_ptr<Parameter>>{param},true,Method::virtual_t::pure,true);
 
     // NOTE! test generation of code
-    shared_ptr<CodeGen>hgen=make_shared<HeaderCodeGen>();
-    hgen->generate(cout,meth);
+    shared_ptr<CodeGen>hgen=make_shared<HeaderCodeGen>(cout);
+    hgen->generate(meth);
     cout<<endl;
   }
   catch(exception const&e){

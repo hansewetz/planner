@@ -1,4 +1,6 @@
 #pragma once
+#include "ccgen/Function.h"
+#include "ccgen/Emitter.h"
 #include <memory>
 #include <string>
 #include <vector>
@@ -8,10 +10,10 @@ namespace ccgen{
 // forward decl
 class Type;
 class Parameter;
+class Function;
 
 // class representing a 'type' for code generation
-// NOTE! Should derive froim function and just add const + virtual
-class Method{
+class Method:public Function{
 public:
   
   // debug print operator
@@ -21,7 +23,8 @@ public:
   enum class virtual_t:int{none=0,pure=1,override=2,plainvirt=3};
 
   // ctors,assign,dtor
-  Method(std::string const&name,std::shared_ptr<Type>rettype,std::vector<std::shared_ptr<Parameter>>const&params,bool isconst,virtual_t vtype);
+  Method(std::string const&classname,std::string const&name,std::shared_ptr<Type>rettype,std::vector<std::shared_ptr<Parameter>>const&params,
+         bool isconst,virtual_t vtype,bool isnoexcept);
   Method(Method const&)=default;
   Method(Method&&)=default;
   Method&operator=(Method const&)=default;
@@ -29,19 +32,18 @@ public:
   ~Method()=default;
 
   // getters
-  std::string const&name()const noexcept;
-  std::shared_ptr<Type>rettype()const;
-  std::vector<std::shared_ptr<Parameter>>const&params()const noexcept;
+  std::string const&classname()const noexcept;
   bool isconst()const noexcept;
   virtual_t vtype()const;
+  bool isnoexcept()const noexcept;
 
   // convert virtual_t to a string
   static std::string const&vtype2string(virtual_t vtype);
 private:
-  std::string const name_;
-  std::shared_ptr<Type>const rettype_;
-  std::vector<std::shared_ptr<Parameter>>params_;
+  std::string const classname_;
   bool const isconst_;
   virtual_t vtype_;
+  bool isnoexcept_;
+  Emitter em_;
 };
 }
