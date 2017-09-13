@@ -22,8 +22,8 @@
 
 # Add some default so users don't have to add them to LOCAL_XXX vars.
 LOCAL_LIBS      += -lrt
-LOCAL_LIBPATH   += -L$(INSTALL_HOME)/lib -L$(INSTALL_HOME0)/lib -L$(INSTALL_HOME)/lib64 -L$(INSTALL_HOME0)/lib64
-LOCAL_INCPATH   += -I. -I$(INSTALL_HOME)/include -I$(INSTALL_HOME0)/include -I$(PROJECT_ROOT)/src/cpp/include
+LOCAL_LIBPATH   += ${BUILD_LIB_PATH}
+LOCAL_INCPATH   += -I. ${BUILD_INC_PATH} -I$(PROJECT_ROOT)/src/cpp/include
 LOCAL_DEFINES   +=
 LOCAL_CXXFLAGS  +=
 LOCAL_CPPFLAGS  += -DBOOST_LOG_DYN_LINK -DASIO_STANDALONE -DBOOST_IOSTREAMS_NO_LIB
@@ -31,11 +31,9 @@ LOCAL_LDFLAGS   +=
 LOCAL_LDSOFLAGS +=
 
 # Setup compile/link environment - these are the variables used in the final build.
-# NOTE! Here we should pick stuff based on useXXX flags set in user Makefile.
-#NOTE! When linking with occi - LIBS=-locci -lclntsh -lociei -lnnz11 $(LOCAL_LIBS) -lboost_system -lboost_filesystem
 LIBS=$(LOCAL_LIBS)
-LIBPATH=-L$(INSTALL_HOME0)/lib64 -L${BOOST_LIB} $(LOCAL_LIBPATH)
-INCPATH=-I${BOOST_INC} $(LOCAL_INCPATH)
+LIBPATH=$(LOCAL_LIBPATH)
+INCPATH=$(LOCAL_INCPATH)
 
 DEFINES=$(LOCAL_DEFINES) -DBOOST_NO_AUTO_PTR
 CXXFLAGS=$(LOCAL_CXXFLAGS)
