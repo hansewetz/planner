@@ -37,7 +37,7 @@ INCPATH=$(LOCAL_INCPATH)
 
 DEFINES=$(LOCAL_DEFINES) -DBOOST_NO_AUTO_PTR
 CXXFLAGS=$(LOCAL_CXXFLAGS)
-CCFLAGS=-c -m64 -fPIC -Wall -pedantic -Werror ${STDFLAG} $(LOCAL_CPPFLAGS) ${GCC_ERROR_IGNORE} ${GCC_USE_GLIBCXX11_ABI} -fconcepts
+CCFLAGS=-c -m64 -fPIC -Wall -pedantic -Werror ${STDFLAG} $(LOCAL_CPPFLAGS) ${GCC_ERROR_IGNORE} ${GCC_USE_GLIBCXX11_ABI}
 CFLAGS=-c -m64 -fPIC -Wall -pedantic $(LOCAL_CPPFLAGS)
 LDFLAGS=-m64 $(LOCAL_LDFLAGS)
 LDSOFLAGS=-shared -fPIC -m64 $(LOCAL_LDSOFLAGS)
@@ -72,13 +72,11 @@ POSTCOMPILE=mv -f $(DEPDIR)/$*.Td $(DEPDIR)/$*.d
 
 # Compilation rules
 %.o: %.cc
-%.o: %.cc $(DEPDIR)/%.d
 	@echo "### Building $@"
 	$(CC) $(DEPFLAGS) $(CXXFLAGS) $(CCFLAGS) $(INCPATH) $(DEFINES) -o $@ $<
 	$(POSTCOMPILE)
 
 %.o: %.c
-%.o: %.c $(DEPDIR)/%.d
 	@echo "### Building $@"
 	$(CC) -x c $(DEPFLAGS) $(CXXFLAGS) $(CFLAGS) $(INCPATH) $(DEFINES) -o $@ $<
 	$(POSTCOMPILE)

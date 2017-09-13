@@ -6,7 +6,7 @@ LOCAL_OBJS      = ccgen.o
 # Control.
 LOCAL_LIBS      = -lccgen \
 	                -lboost_log -lboost_program_options \
-	                -licuuc -licui18n -licudata
+	                -licuuc -licui18n -licudata -lpthread
 LOCAL_LIBPATH   = -L${PROJECT_ROOT}/artefacts/lib
 LOCAL_INCPATH   =
 LOCAL_DEFINES   = 

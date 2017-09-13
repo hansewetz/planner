@@ -17,7 +17,7 @@ export SHAREDDRIVE=/ec/dgt/shared/exodus
 export INSTALL_HOME0=${SHAREDDRIVE}/local/CppEnv-V2.0
 export INSTALL_HOME=${SHAREDDRIVE}/local/CppEnv-V1.0
 
-# lib path for building
+# lib+inc path for building
 export BUILD_LIB_PATH="-L${INSTALL_HOME0}/lib -L${INSTALL_HOME}/lib -L${INSTALL_HOME0}/lib64 -L${INSTALL_HOME}/lib64"
 export BUILD_INC_PATH="-I${INSTALL_HOME0}/include -I${INSTALL_HOME}/include"
 
