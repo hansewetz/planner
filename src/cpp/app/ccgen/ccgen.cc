@@ -3,6 +3,7 @@
 #include "ccgen/Type.h"
 #include "ccgen/Parameter.h"
 #include "ccgen/Method.h"
+#include "ccgen/Constructor.h"
 #include "ccgen/Attribute.h"
 #include "ccgen/Class.h"
 #include "ccgen/HeaderCodeGen.h"
@@ -75,11 +76,15 @@ int main(int argc,char**argv){
     // NOTE! Not yet done
     auto rettype=make_shared<Type>("std","string",Type::reftype_t::value,true);
     auto paramtype=make_shared<Type>("std","string",Type::reftype_t::lvalref,true);
-    auto param=make_shared<Parameter>("foo",paramtype);
-    auto attr=make_shared<Attribute>("attr",true,paramtype);
-    auto cl=make_shared<Class>("foo");
-    auto meth=make_shared<Method>(cl->name(),"bar",rettype,vector<shared_ptr<Parameter>>{param},true,Method::virtual_t::pure,true);
-    cl->addMethod(meth,Class::visibility_t::vpublic);
+    auto attrtype=make_shared<Type>("std","size_t",Type::reftype_t::value,false);
+    auto param=make_shared<Parameter>("par",paramtype);
+    auto attr=make_shared<Attribute>("attr_",true,false,attrtype);
+    auto cl=make_shared<Class>("Foo");
+    auto ctor=make_shared<Constructor>(vector<shared_ptr<Parameter>>{param});
+    auto meth=make_shared<Method>("bar",rettype,vector<shared_ptr<Parameter>>{param},true,Method::virtual_t::pure,true);
+    cl->add(ctor,Class::visibility_t::vpublic);
+    cl->add(meth,Class::visibility_t::vpublic);
+    cl->add(attr,Class::visibility_t::vpublic);
     //cout<<*cl<<endl;
 
     // NOTE! test generation of code

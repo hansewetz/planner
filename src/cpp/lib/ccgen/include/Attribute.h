@@ -14,7 +14,7 @@ public:
   friend std::ostream&operator<<(std::ostream&os,Attribute const&attr);
 
   // ctors,assign,dtor
-  Attribute(std::string const&name,bool ismutable,std::shared_ptr<Type>type);
+  Attribute(std::string const&name,bool ismutable,bool isstatic,std::shared_ptr<Type>type);
   Attribute(Attribute const&)=default;
   Attribute(Attribute&&)=default;
   Attribute&operator=(Attribute const&)=default;
@@ -25,9 +25,11 @@ public:
   std::string const&name()const noexcept;
   std::shared_ptr<Type>type()const;
   bool ismutable()const noexcept;
+  bool isstatic()const noexcept;
 private:
-  	std::string const name_;
-  	bool ismutable_;
+    std::string const name_;
+    bool const ismutable_;
+    bool const isstatic_;
     std::shared_ptr<Type>type_;
 };
 }

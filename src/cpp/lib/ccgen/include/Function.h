@@ -31,6 +31,6 @@ public:
 private:
   std::string const name_;
   std::shared_ptr<Type>const rettype_;
-  std::vector<std::shared_ptr<Parameter>>params_;
+  std::vector<std::shared_ptr<Parameter>>const params_;
 };
 }

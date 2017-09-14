@@ -3,6 +3,7 @@
 #include "ccgen/Attribute.h"
 #include "ccgen/Parameter.h"
 #include "ccgen/Function.h"
+#include "ccgen/Constructor.h"
 #include "ccgen/Method.h"
 #include "ccgen/Class.h"
 #include <boost/lexical_cast.hpp>
@@ -21,8 +22,10 @@ HeaderCodeGen::HeaderCodeGen(ostream&os):em_(os){
 }
 // generate code for a type in header file
 void HeaderCodeGen::generate(shared_ptr<Type>type){
-  em_.emit(type->nspace());
-  em_.emit("::");
+  if(type->hasnspace()){
+    em_.emit(type->nspace());
+    em_.emit("::");
+  }
   em_.emit(type->name());
   if(type->isconst())em_.emit("const");
   if(type->reftype()==Type::reftype_t::lvalref){
@@ -33,10 +36,12 @@ void HeaderCodeGen::generate(shared_ptr<Type>type){
   }
 }
 // generate code for an attribute  in header file
-void HeaderCodeGen::generate(shared_ptr<Attribute>attr){
+void HeaderCodeGen::generate(shared_ptr<Attribute>attr,string const&classname){
+  if(attr->isstatic())em_.emit("static");
   if(attr->ismutable())em_.emit("mutable");
   generate(attr->type());
   em_.emit(attr->name());
+  em_.emit(";");
 }
 // generate code for a parameter  in header file
 void HeaderCodeGen::generate(shared_ptr<Parameter>param){
@@ -47,16 +52,16 @@ void HeaderCodeGen::generate(shared_ptr<Parameter>param){
 void HeaderCodeGen::generate(shared_ptr<Function>func){
   generate(func->rettype());
   em_.emit(func->name());
-  em_.emit("(");
-  auto const&params=func->params();
-  for(auto it=begin(params);it!=end(params);++it){
-    generate(*it);
-    if(next(it)!=end(params))em_.emit(",");
-  }
-  em_.emit(")");
+  generateParamlist(func->params());
+}
+// generate code for a constructor in header file
+void HeaderCodeGen::generate(shared_ptr<Constructor>ctor,string const&classname){
+  em_.emit(classname);
+  generateParamlist(ctor->params());
+  em_.emit(";");
 }
 // generate code for a method in header file
-void HeaderCodeGen::generate(shared_ptr<Method>meth){
+void HeaderCodeGen::generate(shared_ptr<Method>meth,string const&classname){
   // virtual/override
   if(meth->vtype()==Method::virtual_t::pure||
      meth->vtype()==Method::virtual_t::override||
@@ -88,23 +93,46 @@ void HeaderCodeGen::generate(shared_ptr<Class>cl){
   em_.nl();
   em_.incind();
 
-  // emit methods
-  auto const&publicMethods=cl->methods(Class::visibility_t::vpublic);
-  if(publicMethods.size()){
-    em_.emit("public:",true);
-    em_.nl();
-    for(auto const&meth:publicMethods){
-      generate(meth);
-      em_.nl();
-    }
-  }
+  // public section
+  em_.emit("public:",true);
+  em_.nl();
+  generateCtors(cl,Class::visibility_t::vpublic);
+  generateMethods(cl,Class::visibility_t::vpublic);
+  generateAttributes(cl,Class::visibility_t::vpublic);
+  
+// NOTE! Not yet done
 
-
-/* NOTE!
-  auto const&protectedMethods=c->methods(Class::visibility_t::vpublic);
-  auto const&privateMethods=c->methods(Class::visibility_t::vpublic);
-*/
   em_.decind();
   em_.emit("};");
+}
+// generate ctors
+void HeaderCodeGen::generateCtors(shared_ptr<Class>cl,Class::visibility_t vis){
+  for(auto const&ctor:cl->ctors(vis)){
+    generate(ctor,cl->name());
+    em_.nl();
+  }
+}
+// generate methods
+void HeaderCodeGen::generateMethods(shared_ptr<Class>cl,Class::visibility_t vis){
+  for(auto const&method:cl->methods(vis)){
+    generate(method,cl->name());
+    em_.nl();
+  }
+}
+// generate attributes
+void HeaderCodeGen::generateAttributes(shared_ptr<Class>cl,Class::visibility_t vis){
+  for(auto const&attr:cl->attributes(vis)){
+    generate(attr,cl->name());
+    em_.nl();
+  }
+}
+// genera a list of parameters
+void HeaderCodeGen::generateParamlist(vector<shared_ptr<Parameter>>params){
+  em_.emit("(");
+  for(auto it=begin(params);it!=end(params);++it){
+    generate(*it);
+    if(next(it)!=end(params))em_.emit(",");
+  }
+  em_.emit(")");
 }
 }

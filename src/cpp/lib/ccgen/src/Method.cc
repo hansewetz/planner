@@ -20,7 +20,7 @@ map<Method::virtual_t,string>const virtual2stringmap{
 }
 // debug print operator
 ostream&operator<<(ostream&os,Method const&m){
-  os<<"classname: "<<m.classname()<<", name: "<<m.name()<<", rettype: ["<<*m.rettype()<<"], params: [";
+  os<<"name: "<<m.name()<<", rettype: ["<<*m.rettype()<<"], params: [";
   for(auto const&p:m.params())os<<"["<<*p<<"]";
   os<<"]";
   os<<", isconst: "<<boolalpha<<m.isconst()<<", ";
@@ -29,12 +29,11 @@ ostream&operator<<(ostream&os,Method const&m){
   return os;
 }
 // ctor
-Method::Method(string const&classname,string const&name,shared_ptr<Type>rettype,vector<shared_ptr<Parameter>>const&params,bool isconst,
+Method::Method(string const&name,shared_ptr<Type>rettype,vector<shared_ptr<Parameter>>const&params,bool isconst,
                virtual_t vtype,bool isnoexcept):
-    Function(name,rettype,params),classname_(classname),isconst_(isconst),vtype_(vtype),isnoexcept_(isnoexcept){
+    Function(name,rettype,params),isconst_(isconst),vtype_(vtype),isnoexcept_(isnoexcept){
 }
 // getters
-string const&Method::classname()const noexcept{return classname_;}
 bool Method::isconst()const noexcept{return isconst_;}
 Method::virtual_t Method::vtype()const{return vtype_;}
 bool Method::isnoexcept()const noexcept{return isnoexcept_;}

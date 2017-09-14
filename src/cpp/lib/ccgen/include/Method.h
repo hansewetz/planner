@@ -22,7 +22,7 @@ public:
   enum class virtual_t:int{none=0,pure=1,override=2,plainvirt=3};
 
   // ctors,assign,dtor
-  Method(std::string const&classname,std::string const&name,std::shared_ptr<Type>rettype,std::vector<std::shared_ptr<Parameter>>const&params,
+  Method(std::string const&name,std::shared_ptr<Type>rettype,std::vector<std::shared_ptr<Parameter>>const&params,
          bool isconst,virtual_t vtype,bool isnoexcept);
   Method(Method const&)=default;
   Method(Method&&)=default;
@@ -31,7 +31,6 @@ public:
   ~Method()=default;
 
   // getters
-  std::string const&classname()const noexcept;
   bool isconst()const noexcept;
   virtual_t vtype()const;
   bool isnoexcept()const noexcept;
@@ -39,7 +38,6 @@ public:
   // convert virtual_t to a string
   static std::string const&vtype2string(virtual_t vtype);
 private:
-  std::string const classname_;
   bool const isconst_;
   virtual_t vtype_;
   bool isnoexcept_;

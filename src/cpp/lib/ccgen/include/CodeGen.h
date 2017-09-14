@@ -12,6 +12,7 @@ class Attribute;
 class Function;
 class Method;
 class Class;
+class Constructor;
 
 // class representing a 'code-generator' 
 class CodeGen{
@@ -29,10 +30,11 @@ public:
 
   // functional methods
   virtual void generate(std::shared_ptr<Type>type)=0;
-  virtual void generate(std::shared_ptr<Attribute>attr)=0;
+  virtual void generate(std::shared_ptr<Attribute>attr,std::string const&classname)=0;
   virtual void generate(std::shared_ptr<Parameter>param)=0;
   virtual void generate(std::shared_ptr<Function>func)=0;
-  virtual void generate(std::shared_ptr<Method>meth)=0;
+  virtual void generate(std::shared_ptr<Method>method,std::string const&classname)=0;
+  virtual void generate(std::shared_ptr<Constructor>ctor,std::string const&classname)=0;
   virtual void generate(std::shared_ptr<Class>cl)=0;
 
   // getters

@@ -1,9 +1,11 @@
 #pragma once
 #include "ccgen/CodeGen.h"
 #include "ccgen/Emitter.h"
+#include "ccgen/Class.h"
 #include <string>
 #include <iosfwd>
 #include <memory>
+#include <vector>
 namespace ccgen{
 
 // forward decl
@@ -12,7 +14,6 @@ class Attribute;
 class Parameter;
 class Function;
 class Method;
-class Class;
 
 // class representing a 'code-generator' for header files
 class HeaderCodeGen:public CodeGen{
@@ -30,12 +31,20 @@ protected:
 private:
   // generate code to an output stream
   virtual void generate(std::shared_ptr<Type>type)override;
-  virtual void generate(std::shared_ptr<Attribute>attr)override;
+  virtual void generate(std::shared_ptr<Attribute>attr,std::string const&classname)override;
   virtual void generate(std::shared_ptr<Parameter>param)override;
   virtual void generate(std::shared_ptr<Function>func)override;
-  virtual void generate(std::shared_ptr<Method>meth)override;
+  virtual void generate(std::shared_ptr<Method>meth,std::string const&classname)override;
+  virtual void generate(std::shared_ptr<Constructor>ctor,std::string const&classname)override;
   virtual void generate(std::shared_ptr<Class>cl)override;
 private:
+  // helper methods
+  void generateCtors(std::shared_ptr<Class>cl,Class::visibility_t vis);
+  void generateMethods(std::shared_ptr<Class>cl,Class::visibility_t vis);
+  void generateAttributes(std::shared_ptr<Class>cl,Class::visibility_t vis);
+  void generateParamlist(std::vector<std::shared_ptr<Parameter>>params);
+
+  // private data
   Emitter em_;
 };
 }
