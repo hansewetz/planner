@@ -14,7 +14,6 @@ class Function;
 // class representing a 'type' for code generation
 class Method:public Function{
 public:
-  
   // debug print operator
   friend std::ostream&operator<<(std::ostream&os,Method const&meth);
 

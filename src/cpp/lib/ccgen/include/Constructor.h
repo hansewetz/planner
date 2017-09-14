@@ -11,7 +11,6 @@ class Parameter;
 // class representing a 'type' for code generation
 class Constructor{
 public:
-  
   // debug print operator
   friend std::ostream&operator<<(std::ostream&os,Constructor const&ctor);
 

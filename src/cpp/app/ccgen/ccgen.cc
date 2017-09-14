@@ -4,8 +4,10 @@
 #include "ccgen/Parameter.h"
 #include "ccgen/Method.h"
 #include "ccgen/Constructor.h"
+#include "ccgen/Destructor.h"
 #include "ccgen/Attribute.h"
 #include "ccgen/Class.h"
+#include "ccgen/StandardAssignOperator.h"
 #include "ccgen/HeaderCodeGen.h"
 
 // boost
@@ -81,8 +83,14 @@ int main(int argc,char**argv){
     auto attr=make_shared<Attribute>("attr_",true,false,attrtype);
     auto cl=make_shared<Class>("Foo");
     auto ctor=make_shared<Constructor>(vector<shared_ptr<Parameter>>{param});
+    auto assgncopy=make_shared<StandardAssignOperator>(true,StandardAssignOperator::impl_t::del);
+    auto assignmove=make_shared<StandardAssignOperator>(false,StandardAssignOperator::impl_t::def);
+    auto dtor=make_shared<Destructor>(true);
     auto meth=make_shared<Method>("bar",rettype,vector<shared_ptr<Parameter>>{param},true,Method::virtual_t::pure,true);
     cl->add(ctor,Class::visibility_t::vpublic);
+    cl->add(assgncopy,Class::visibility_t::vpublic);
+    cl->add(assignmove,Class::visibility_t::vpublic);
+    cl->add(dtor,Class::visibility_t::vpublic);
     cl->add(meth,Class::visibility_t::vpublic);
     cl->add(attr,Class::visibility_t::vpublic);
     //cout<<*cl<<endl;

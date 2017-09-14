@@ -18,15 +18,7 @@ map<Class::visibility_t,string>const visibility2stringmap{
 }
 // debug print operator
 ostream&operator<<(ostream&os,Class const&c){
-  os<<"name: "<<c.name()<<", methods[";
-  for(auto p:visibility2stringmap){
-    auto vis=p.first;
-    os<<p.second<<": {";
-    for(auto const&meth:c.methods(vis)){
-      os<<"["<<*meth<<"]";
-    }
-    os<<"}";
-  }
+  os<<"name: "<<c.name();
   return os;
 }
 // ctor
@@ -45,16 +37,30 @@ Class::Class(string const&name):name_(name){
   attributes_[visibility_t::vpublic];
   attributes_[visibility_t::vprotected];
   attributes_[visibility_t::vprivate];
+
+  // add slots to assignops map
+  assignops_[visibility_t::vpublic];
+  assignops_[visibility_t::vprotected];
+  assignops_[visibility_t::vprivate];
+
+  // set dtor to null
+  dtor_=make_pair(visibility_t::vpublic,nullptr);
 }
 // getters
 string const&Class::name()const noexcept{return name_;}
 vector<shared_ptr<Constructor>>const&Class::ctors(visibility_t vis)const{return ctors_.find(vis)->second;}
+shared_ptr<Destructor>Class::dtor(visibility_t vis)const{if(vis==dtor_.first)return dtor_.second;else return nullptr;}
 vector<shared_ptr<Method>>const&Class::methods(visibility_t vis)const{return methods_.find(vis)->second;}
 vector<shared_ptr<Attribute>>const&Class::attributes(visibility_t vis)const{return attributes_.find(vis)->second;}
+vector<shared_ptr<StandardAssignOperator>>const&Class::assignops(visibility_t vis)const{return assignops_.find(vis)->second;}
 
 // add ctor
 void Class::add(shared_ptr<Constructor>ctor,visibility_t vis){
   ctors_[vis].push_back(ctor);
+}
+// add dtor
+void Class::add(shared_ptr<Destructor>dtor,visibility_t vis){
+  dtor_=make_pair(vis,dtor);
 }
 // add method
 void Class::add(shared_ptr<Method>method,visibility_t vis){
@@ -63,6 +69,10 @@ void Class::add(shared_ptr<Method>method,visibility_t vis){
 // add attribute
 void Class::add(shared_ptr<Attribute>attr,visibility_t vis){
   attributes_[vis].push_back(attr);
+}
+// add assign operator
+void Class::add(shared_ptr<StandardAssignOperator>attr,visibility_t vis){
+  assignops_[vis].push_back(attr);
 }
 // convert reftype to a string
 string const&Class::visibility2string(visibility_t vis){

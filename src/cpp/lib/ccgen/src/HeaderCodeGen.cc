@@ -4,8 +4,10 @@
 #include "ccgen/Parameter.h"
 #include "ccgen/Function.h"
 #include "ccgen/Constructor.h"
+#include "ccgen/Destructor.h"
 #include "ccgen/Method.h"
 #include "ccgen/Class.h"
+#include "ccgen/StandardAssignOperator.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/log/trivial.hpp>
 #include <iostream>
@@ -60,6 +62,29 @@ void HeaderCodeGen::generate(shared_ptr<Constructor>ctor,string const&classname)
   generateParamlist(ctor->params());
   em_.emit(";");
 }
+// generate code for a destructor in header file
+void HeaderCodeGen::generate(shared_ptr<Destructor>dtor,string const&classname){
+  if(dtor->isvirtual())em_.emit("virtual");
+  em_.emit("~");
+  em_.emit(classname);
+  em_.emit("();");
+}
+// generate code for a assignment operator in header file
+void HeaderCodeGen::generate(shared_ptr<StandardAssignOperator>a,string const&classname){
+  em_.emit(classname);
+  em_.emit("&operator=(");
+  em_.emit(classname);
+  if(a->iscopy())em_.emit("const&");
+  else em_.emit("&&");
+  em_.emit(")");
+  if(a->impl()==StandardAssignOperator::impl_t::def){
+    em_.emit("=default");
+  }else
+  if(a->impl()==StandardAssignOperator::impl_t::del){
+    em_.emit("=delete");
+  };
+  em_.emit(";");
+}
 // generate code for a method in header file
 void HeaderCodeGen::generate(shared_ptr<Method>meth,string const&classname){
   // virtual/override
@@ -97,6 +122,11 @@ void HeaderCodeGen::generate(shared_ptr<Class>cl){
   em_.emit("public:",true);
   em_.nl();
   generateCtors(cl,Class::visibility_t::vpublic);
+  generateStandardAssignops(cl,Class::visibility_t::vpublic);
+  if(cl->dtor(Class::visibility_t::vpublic)){
+    generate(cl->dtor(Class::visibility_t::vpublic),cl->name());
+    em_.nl();
+  }
   generateMethods(cl,Class::visibility_t::vpublic);
   generateAttributes(cl,Class::visibility_t::vpublic);
   
@@ -123,6 +153,13 @@ void HeaderCodeGen::generateMethods(shared_ptr<Class>cl,Class::visibility_t vis)
 void HeaderCodeGen::generateAttributes(shared_ptr<Class>cl,Class::visibility_t vis){
   for(auto const&attr:cl->attributes(vis)){
     generate(attr,cl->name());
+    em_.nl();
+  }
+}
+// generate assign operations
+void HeaderCodeGen::generateStandardAssignops(shared_ptr<Class>cl,Class::visibility_t vis){
+  for(auto const&assignop:cl->assignops(vis)){
+    generate(assignop,cl->name());
     em_.nl();
   }
 }
