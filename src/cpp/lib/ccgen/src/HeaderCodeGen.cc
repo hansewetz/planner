@@ -139,20 +139,10 @@ void HeaderCodeGen::generate(shared_ptr<Class>cl){
   em_.nl();
   em_.incind();
 
-  // public section
-  em_.emit("public:",true);
-  em_.nl();
-  generateCtors(cl,Class::visibility_t::vpublic);
-  generateStdctors(cl,Class::visibility_t::vpublic);
-  generateStandardAssignops(cl,Class::visibility_t::vpublic);
-  if(cl->dtor(Class::visibility_t::vpublic)){
-    generate(cl->dtor(Class::visibility_t::vpublic),cl->name());
-    em_.nl();
-  }
-  generateMethods(cl,Class::visibility_t::vpublic);
-  generateAttributes(cl,Class::visibility_t::vpublic);
-  
-// NOTE! Not yet done
+  // public/protected/private section
+  generateClassVisibilitySection(cl,Class::visibility_t::vpublic);
+  generateClassVisibilitySection(cl,Class::visibility_t::vprotected);
+  generateClassVisibilitySection(cl,Class::visibility_t::vprivate);
 
   em_.decind();
   em_.emit("};");
@@ -190,6 +180,25 @@ void HeaderCodeGen::generateStdctors(shared_ptr<Class>cl,Class::visibility_t vis
   for(auto const&stdctor:cl->stdctors(vis)){
     generate(stdctor,cl->name());
     em_.nl();
+  }
+}
+// gc/protected/private section
+void HeaderCodeGen::generateClassVisibilitySection(shared_ptr<Class>cl,Class::visibility_t vis){
+  // check if we have anything to emit
+  if(cl->ctors(vis).size()||cl->stdctors(vis).size()||cl->dtor(vis)||cl->methods(vis).size()||
+     cl->attributes(vis).size()||cl->assignops(vis).size()){
+    em_.emit(Class::visibility2string(vis),true);
+    em_.emit(":",true);
+    em_.nl();
+    generateCtors(cl,vis);
+    generateStdctors(cl,vis);
+    generateStandardAssignops(cl,vis);
+    if(cl->dtor(vis)){
+      generate(cl->dtor(vis),cl->name());
+      em_.nl();
+    }
+    generateMethods(cl,vis);
+    generateAttributes(cl,vis);
   }
 }
 // genera a list of parameters

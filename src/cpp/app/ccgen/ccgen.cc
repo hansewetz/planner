@@ -97,7 +97,7 @@ int main(int argc,char**argv){
     cl->add(assignmove,Class::visibility_t::vpublic);
     cl->add(dtor,Class::visibility_t::vpublic);
     cl->add(meth,Class::visibility_t::vpublic);
-    cl->add(attr,Class::visibility_t::vpublic);
+    cl->add(attr,Class::visibility_t::vprivate);
     //cout<<*cl<<endl;
 
     // NOTE! test generation of code

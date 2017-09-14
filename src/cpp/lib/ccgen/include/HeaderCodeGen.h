@@ -40,6 +40,7 @@ private:
   void generateAttributes(std::shared_ptr<Class>cl,Class::visibility_t vis);
   void generateStandardAssignops(std::shared_ptr<Class>cl,Class::visibility_t vis);
   void generateStdctors(std::shared_ptr<Class>cl,Class::visibility_t vis);
+  void generateClassVisibilitySection(std::shared_ptr<Class>cl,Class::visibility_t vis);
   void generateParamlist(std::vector<std::shared_ptr<Parameter>>params);
 
   // private data
