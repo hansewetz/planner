@@ -28,6 +28,11 @@ Class::Class(string const&name):name_(name){
   ctors_[visibility_t::vprotected];
   ctors_[visibility_t::vprivate];
 
+  // add slots to standard ctor map
+  stdctors_[visibility_t::vpublic];
+  stdctors_[visibility_t::vprotected];
+  stdctors_[visibility_t::vprivate];
+
   // add slots to methods map
   methods_[visibility_t::vpublic];
   methods_[visibility_t::vprotected];
@@ -49,6 +54,7 @@ Class::Class(string const&name):name_(name){
 // getters
 string const&Class::name()const noexcept{return name_;}
 vector<shared_ptr<Constructor>>const&Class::ctors(visibility_t vis)const{return ctors_.find(vis)->second;}
+vector<shared_ptr<StandardConstructor>>const&Class::stdctors(visibility_t vis)const{return stdctors_.find(vis)->second;}
 shared_ptr<Destructor>Class::dtor(visibility_t vis)const{if(vis==dtor_.first)return dtor_.second;else return nullptr;}
 vector<shared_ptr<Method>>const&Class::methods(visibility_t vis)const{return methods_.find(vis)->second;}
 vector<shared_ptr<Attribute>>const&Class::attributes(visibility_t vis)const{return attributes_.find(vis)->second;}
@@ -57,6 +63,10 @@ vector<shared_ptr<StandardAssignOperator>>const&Class::assignops(visibility_t vi
 // add ctor
 void Class::add(shared_ptr<Constructor>ctor,visibility_t vis){
   ctors_[vis].push_back(ctor);
+}
+// add standard ctor
+void Class::add(shared_ptr<StandardConstructor>ctor,visibility_t vis){
+  stdctors_[vis].push_back(ctor);
 }
 // add dtor
 void Class::add(shared_ptr<Destructor>dtor,visibility_t vis){

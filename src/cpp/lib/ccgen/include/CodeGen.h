@@ -13,6 +13,7 @@ class Function;
 class Method;
 class Class;
 class Constructor;
+class StandardConstructor;
 class Destructor;
 class StandardAssignOperator;
 
@@ -37,6 +38,7 @@ public:
   virtual void generate(std::shared_ptr<Function>func)=0;
   virtual void generate(std::shared_ptr<Method>method,std::string const&classname)=0;
   virtual void generate(std::shared_ptr<Constructor>ctor,std::string const&classname)=0;
+  virtual void generate(std::shared_ptr<StandardConstructor>ctor,std::string const&classname)=0;
   virtual void generate(std::shared_ptr<Destructor>dtor,std::string const&classname)=0;
   virtual void generate(std::shared_ptr<StandardAssignOperator>a,std::string const&classname)=0;
   virtual void generate(std::shared_ptr<Class>cl)=0;

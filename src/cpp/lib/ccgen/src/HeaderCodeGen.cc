@@ -4,6 +4,7 @@
 #include "ccgen/Parameter.h"
 #include "ccgen/Function.h"
 #include "ccgen/Constructor.h"
+#include "ccgen/StandardConstructor.h"
 #include "ccgen/Destructor.h"
 #include "ccgen/Method.h"
 #include "ccgen/Class.h"
@@ -60,6 +61,26 @@ void HeaderCodeGen::generate(shared_ptr<Function>func){
 void HeaderCodeGen::generate(shared_ptr<Constructor>ctor,string const&classname){
   em_.emit(classname);
   generateParamlist(ctor->params());
+  em_.emit(";");
+}
+// generate code for a standard constructor in header file
+void HeaderCodeGen::generate(shared_ptr<StandardConstructor>ctor,string const&classname){
+  em_.emit(classname);
+  em_.emit("(");
+  if(ctor->type()==StandardConstructor::type_t::copy){
+    em_.emit(classname);
+    em_.emit("const&");
+  }else{
+    em_.emit(classname);
+    em_.emit("&&");
+  }
+  em_.emit(")");
+  if(ctor->impl()==StandardConstructor::impl_t::def){
+    em_.emit("=default");
+  }else
+  if(ctor->impl()==StandardConstructor::impl_t::del){
+    em_.emit("=delete");
+  };
   em_.emit(";");
 }
 // generate code for a destructor in header file
@@ -122,6 +143,7 @@ void HeaderCodeGen::generate(shared_ptr<Class>cl){
   em_.emit("public:",true);
   em_.nl();
   generateCtors(cl,Class::visibility_t::vpublic);
+  generateStdctors(cl,Class::visibility_t::vpublic);
   generateStandardAssignops(cl,Class::visibility_t::vpublic);
   if(cl->dtor(Class::visibility_t::vpublic)){
     generate(cl->dtor(Class::visibility_t::vpublic),cl->name());
@@ -160,6 +182,13 @@ void HeaderCodeGen::generateAttributes(shared_ptr<Class>cl,Class::visibility_t v
 void HeaderCodeGen::generateStandardAssignops(shared_ptr<Class>cl,Class::visibility_t vis){
   for(auto const&assignop:cl->assignops(vis)){
     generate(assignop,cl->name());
+    em_.nl();
+  }
+}
+// generate stndard ctors operations
+void HeaderCodeGen::generateStdctors(shared_ptr<Class>cl,Class::visibility_t vis){
+  for(auto const&stdctor:cl->stdctors(vis)){
+    generate(stdctor,cl->name());
     em_.nl();
   }
 }

@@ -8,6 +8,7 @@ namespace ccgen{
 
 // forward decl
 class Constructor;
+class StandardConstructor;
 class Destructor;
 class Destructor;
 class Method;
@@ -36,6 +37,7 @@ public:
   // getters
   std::string const&name()const noexcept;
   std::vector<std::shared_ptr<Constructor>>const&ctors(visibility_t vis)const;
+  std::vector<std::shared_ptr<StandardConstructor>>const&stdctors(visibility_t vis)const;
   std::shared_ptr<Destructor>dtor(visibility_t vis)const;
   std::vector<std::shared_ptr<Method>>const&methods(visibility_t vis)const;
   std::vector<std::shared_ptr<Attribute>>const&attributes(visibility_t vis)const;
@@ -43,6 +45,7 @@ public:
 
   // modifyers
   void add(std::shared_ptr<Constructor>ctor,visibility_t vis);
+  void add(std::shared_ptr<StandardConstructor>ctor,visibility_t vis);
   void add(std::shared_ptr<Destructor>dtor,visibility_t vis);
   void add(std::shared_ptr<Method>method,visibility_t vis);
   void add(std::shared_ptr<Attribute>method,visibility_t vis);
@@ -53,6 +56,7 @@ public:
 private:
   std::string const name_;
   std::map<visibility_t,std::vector<std::shared_ptr<Constructor>>>ctors_;
+  std::map<visibility_t,std::vector<std::shared_ptr<StandardConstructor>>>stdctors_;
   std::pair<visibility_t,std::shared_ptr<Destructor>>dtor_;
   std::map<visibility_t,std::vector<std::shared_ptr<Method>>>methods_;
   std::map<visibility_t,std::vector<std::shared_ptr<Attribute>>>attributes_;

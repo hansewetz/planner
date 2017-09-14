@@ -29,6 +29,7 @@ private:
   virtual void generate(std::shared_ptr<Function>func)override;
   virtual void generate(std::shared_ptr<Method>meth,std::string const&classname)override;
   virtual void generate(std::shared_ptr<Constructor>ctor,std::string const&classname)override;
+  virtual void generate(std::shared_ptr<StandardConstructor>ctor,std::string const&classname)override;
   virtual void generate(std::shared_ptr<Destructor>dtor,std::string const&classname)override;
   virtual void generate(std::shared_ptr<StandardAssignOperator>a,std::string const&classname)override;
   virtual void generate(std::shared_ptr<Class>cl)override;
@@ -38,6 +39,7 @@ private:
   void generateMethods(std::shared_ptr<Class>cl,Class::visibility_t vis);
   void generateAttributes(std::shared_ptr<Class>cl,Class::visibility_t vis);
   void generateStandardAssignops(std::shared_ptr<Class>cl,Class::visibility_t vis);
+  void generateStdctors(std::shared_ptr<Class>cl,Class::visibility_t vis);
   void generateParamlist(std::vector<std::shared_ptr<Parameter>>params);
 
   // private data

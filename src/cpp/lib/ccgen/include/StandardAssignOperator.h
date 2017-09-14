@@ -9,7 +9,7 @@ public:
   // debug print operator
   friend std::ostream&operator<<(std::ostream&os,StandardAssignOperator const&ctor);
 
-  // type of assign operator
+  // type of assign operator implementation
   enum class impl_t:int{impl=0,def=1,del=3};
 
   // ctors,assign,dtor
