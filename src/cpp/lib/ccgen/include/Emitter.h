@@ -10,13 +10,13 @@ public:
   friend std::ostream&operator<<(std::ostream&os,Emitter const&type);
 
   // some constants
-  constexpr static int const DEFAULT_INDENTATION_LEVEL=2;
+  constexpr static int const DEFAULT_INDENTATION_STEP=2;
 
   // type of reference
   enum class reftype_t:int{value=0,lvalref=1,rvalref=2};
 
   // ctors,assign,dtor
-  Emitter(std::ostream&os,int indstep=DEFAULT_INDENTATION_LEVEL);
+  Emitter(std::ostream&os,int indstep=DEFAULT_INDENTATION_STEP);
   Emitter(Emitter const&)=delete;
   Emitter(Emitter&&)=delete;
   Emitter&operator=(Emitter const&)=delete;
@@ -25,12 +25,14 @@ public:
 
   // getters
   std::ostream&os()noexcept;
+  int indlevel()const noexcept;
   char lastchar()const noexcept;
   bool isbreak()const;
 
   // functional
   std::ostream&emit(std::string const&str,bool zeroindent=false);
   std::ostream&nl();
+  void indlevel(int indlevel);
   void incind();
   void decind();
 private:

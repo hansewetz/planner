@@ -33,6 +33,7 @@ private:
   virtual void generate(std::shared_ptr<Destructor>dtor,std::string const&classname)override;
   virtual void generate(std::shared_ptr<StandardAssignOperator>a,std::string const&classname)override;
   virtual void generate(std::shared_ptr<Class>cl)override;
+  virtual void generate(std::shared_ptr<TranslationUnit>tu)override;
 private:
   // helper methods
   void generateCtors(std::shared_ptr<Class>cl,Class::visibility_t vis);

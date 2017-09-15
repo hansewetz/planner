@@ -16,6 +16,7 @@ class Constructor;
 class StandardConstructor;
 class Destructor;
 class StandardAssignOperator;
+class TranslationUnit;
 
 // class representing a 'code-generator' 
 class CodeGen{
@@ -42,6 +43,7 @@ public:
   virtual void generate(std::shared_ptr<Destructor>dtor,std::string const&classname)=0;
   virtual void generate(std::shared_ptr<StandardAssignOperator>a,std::string const&classname)=0;
   virtual void generate(std::shared_ptr<Class>cl)=0;
+  virtual void generate(std::shared_ptr<TranslationUnit>tu)=0;
 
   // getters
   std::ostream&os()noexcept;

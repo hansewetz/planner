@@ -10,9 +10,10 @@ ostream&operator<<(ostream&os,Emitter const&em){
 }
 // ctor
 Emitter::Emitter(ostream&os,int indstep):
-    os_(os),indstep_(indstep),lastchar_('&'),indent_(false),indlevel_(0){
+    os_(os),indstep_(indstep),lastchar_('\n'),indent_(false),indlevel_(0){
 }
 // getters
+int Emitter::indlevel()const noexcept{return indlevel_;}
 ostream&Emitter::os()noexcept{return os_;}
 char Emitter::lastchar()const noexcept{return lastchar_;}
 
@@ -40,7 +41,12 @@ ostream&Emitter::emit(std::string const&str,bool zeroindent){
 // emit a new line
 ostream&Emitter::nl(){
   indent_=true;
+  lastchar_='\n';
   return os_<<endl;
+}
+// set indentation level
+void Emitter::indlevel(int indlevel){
+  indlevel_=indlevel;
 }
 // increment ind level
 void Emitter::incind(){

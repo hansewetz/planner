@@ -8,7 +8,9 @@
 #include "ccgen/Destructor.h"
 #include "ccgen/Method.h"
 #include "ccgen/Class.h"
+#include "ccgen/TranslationUnit.h"
 #include "ccgen/StandardAssignOperator.h"
+#include "ccgen/Headerfile.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/log/trivial.hpp>
 #include <iostream>
@@ -146,6 +148,42 @@ void HeaderCodeGen::generate(shared_ptr<Class>cl){
 
   em_.decind();
   em_.emit("};");
+}
+// generate code for translation unit in header file
+void HeaderCodeGen::generate(std::shared_ptr<TranslationUnit>tu){
+  em_.indlevel(0);
+  em_.emit("#pragma once");
+  em_.nl();
+  // headerfile(s)
+  for(auto const&h:tu->headerfiles()){
+    em_.emit("#include");
+    if(h->islocal())em_.emit("\"");
+    else em_.emit("<");
+    em_.emit(h->name());
+    if(h->islocal())em_.emit("\"");
+    else em_.emit(">");
+    em_.nl();
+  }
+  // namespace
+  if(tu->hasnamespace()){
+    em_.emit("namespace");
+    em_.emit(tu->namespacestring());
+    em_.emit("{");
+    em_.nl();
+    em_.nl();
+  }
+  // class(s)
+  for(auto cl:tu->classes()){
+    em_.emit("// "s+cl->name());
+    em_.nl();
+    generate(cl);
+  }
+  // end of namespace
+  if(tu->hasnamespace()){
+    em_.nl();
+    em_.emit("}");  
+  }
+  // NOTE! Not yet done
 }
 // generate ctors
 void HeaderCodeGen::generateCtors(shared_ptr<Class>cl,Class::visibility_t vis){

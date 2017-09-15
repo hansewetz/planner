@@ -9,6 +9,8 @@
 #include "ccgen/Attribute.h"
 #include "ccgen/Class.h"
 #include "ccgen/StandardAssignOperator.h"
+#include "ccgen/TranslationUnit.h"
+#include "ccgen/Headerfile.h"
 #include "ccgen/HeaderCodeGen.h"
 
 // boost
@@ -90,6 +92,10 @@ int main(int argc,char**argv){
     auto assignmove=make_shared<StandardAssignOperator>(false,StandardAssignOperator::impl_t::def);
     auto dtor=make_shared<Destructor>(true);
     auto meth=make_shared<Method>("bar",rettype,vector<shared_ptr<Parameter>>{param},true,Method::virtual_t::pure,true);
+    auto inc=make_shared<Headerfile>("string",false);
+    auto tu=make_shared<TranslationUnit>(cl->name(),"foo");
+    tu->add(cl);
+    tu->add(inc);
     cl->add(ctor,Class::visibility_t::vpublic);
     cl->add(copyctor,Class::visibility_t::vpublic);
     cl->add(movector,Class::visibility_t::vpublic);
@@ -98,11 +104,10 @@ int main(int argc,char**argv){
     cl->add(dtor,Class::visibility_t::vpublic);
     cl->add(meth,Class::visibility_t::vpublic);
     cl->add(attr,Class::visibility_t::vprivate);
-    //cout<<*cl<<endl;
 
     // NOTE! test generation of code
     shared_ptr<CodeGen>hgen=make_shared<HeaderCodeGen>(cout);
-    hgen->generate(cl);
+    hgen->generate(tu);
     cout<<endl;
   }
   catch(exception const&e){
