@@ -90,7 +90,15 @@ void HeaderCodeGen::generate(shared_ptr<Destructor>dtor,string const&classname){
   if(dtor->isvirtual())em_.emit("virtual");
   em_.emit("~");
   em_.emit(classname);
-  em_.emit("();");
+  em_.emit("()");
+  if(dtor->impl()==Destructor::impl_t::def){
+    em_.emit("=default");
+  }else
+  if(dtor->impl()==Destructor::impl_t::del){
+    em_.emit("=delete");
+  }
+  em_.emit(";");
+
 }
 // generate code for a assignment operator in header file
 void HeaderCodeGen::generate(shared_ptr<StandardAssignOperator>a,string const&classname){
@@ -135,13 +143,21 @@ void HeaderCodeGen::generate(shared_ptr<Method>meth,string const&classname){
 }
 // generate code for a class in header file
 void HeaderCodeGen::generate(shared_ptr<Class>cl){
+  // start class
   em_.emit("class");
   em_.emit(cl->name());
   em_.emit("{");
   em_.nl();
-  em_.incind();
 
+  // generate friend functions
+  for(auto const&ff:cl->friendfuncs()){
+    em_.emit("friend");
+    generate(ff);
+    em_.emit(";");
+    em_.nl();
+  }
   // public/protected/private section
+  em_.incind();
   generateClassVisibilitySection(cl,Class::visibility_t::vpublic);
   generateClassVisibilitySection(cl,Class::visibility_t::vprotected);
   generateClassVisibilitySection(cl,Class::visibility_t::vprivate);
@@ -228,6 +244,8 @@ void HeaderCodeGen::generateClassVisibilitySection(shared_ptr<Class>cl,Class::vi
     em_.emit(Class::visibility2string(vis),true);
     em_.emit(":",true);
     em_.nl();
+
+    // generate rest of class
     generateCtors(cl,vis);
     generateStdctors(cl,vis);
     generateStandardAssignops(cl,vis);

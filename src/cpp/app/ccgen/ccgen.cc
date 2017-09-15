@@ -10,6 +10,7 @@
 #include "ccgen/Class.h"
 #include "ccgen/StandardAssignOperator.h"
 #include "ccgen/TranslationUnit.h"
+#include "ccgen/StandardTranslationUnit.h"
 #include "ccgen/Headerfile.h"
 #include "ccgen/HeaderCodeGen.h"
 
@@ -79,6 +80,7 @@ int main(int argc,char**argv){
     if(print)printCmdlineParameters();
 
     // NOTE! Not yet done
+/*
     auto rettype=make_shared<Type>("std","string",Type::reftype_t::value,true);
     auto paramtype=make_shared<Type>("std","string",Type::reftype_t::lvalref,true);
     auto attrtype=make_shared<Type>("std","size_t",Type::reftype_t::value,false);
@@ -104,6 +106,8 @@ int main(int argc,char**argv){
     cl->add(dtor,Class::visibility_t::vpublic);
     cl->add(meth,Class::visibility_t::vpublic);
     cl->add(attr,Class::visibility_t::vprivate);
+*/
+    shared_ptr<TranslationUnit>tu=make_shared<StandardTranslationUnit>("Foo","foo");
 
     // NOTE! test generation of code
     shared_ptr<CodeGen>hgen=make_shared<HeaderCodeGen>(cout);

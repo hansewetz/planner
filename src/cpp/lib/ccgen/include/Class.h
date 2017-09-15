@@ -14,6 +14,7 @@ class Destructor;
 class Method;
 class Attribute;
 class StandardAssignOperator;
+class Function;
 
 // class representing a 'type' for code generation
 class Class{
@@ -42,6 +43,8 @@ public:
   std::vector<std::shared_ptr<Method>>const&methods(visibility_t vis)const;
   std::vector<std::shared_ptr<Attribute>>const&attributes(visibility_t vis)const;
   std::vector<std::shared_ptr<StandardAssignOperator>>const&assignops(visibility_t vis)const;
+  std::vector<std::shared_ptr<Function>>const&friendfuncs()const noexcept;
+
 
   // modifyers
   void add(std::shared_ptr<Constructor>ctor,visibility_t vis);
@@ -50,6 +53,7 @@ public:
   void add(std::shared_ptr<Method>method,visibility_t vis);
   void add(std::shared_ptr<Attribute>method,visibility_t vis);
   void add(std::shared_ptr<StandardAssignOperator>assignop,visibility_t vis);
+  void add(std::shared_ptr<Function>func);
 
   // convert a visibility value to a string
   static std::string const&visibility2string(visibility_t vis);
@@ -61,5 +65,6 @@ private:
   std::map<visibility_t,std::vector<std::shared_ptr<Method>>>methods_;
   std::map<visibility_t,std::vector<std::shared_ptr<Attribute>>>attributes_;
   std::map<visibility_t,std::vector<std::shared_ptr<StandardAssignOperator>>>assignops_;
+  std::vector<std::shared_ptr<Function>>friendfuncs_;
 };
 }

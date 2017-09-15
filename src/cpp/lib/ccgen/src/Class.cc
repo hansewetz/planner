@@ -1,6 +1,7 @@
 #include "ccgen/Class.h"
 #include "ccgen/Method.h"
 #include "ccgen/Attribute.h"
+#include "ccgen/Function.h"
 #include "utils/utility.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/log/trivial.hpp>
@@ -59,6 +60,7 @@ shared_ptr<Destructor>Class::dtor(visibility_t vis)const{if(vis==dtor_.first)ret
 vector<shared_ptr<Method>>const&Class::methods(visibility_t vis)const{return methods_.find(vis)->second;}
 vector<shared_ptr<Attribute>>const&Class::attributes(visibility_t vis)const{return attributes_.find(vis)->second;}
 vector<shared_ptr<StandardAssignOperator>>const&Class::assignops(visibility_t vis)const{return assignops_.find(vis)->second;}
+vector<shared_ptr<Function>>const&Class::friendfuncs()const noexcept{return friendfuncs_;}
 
 // add ctor
 void Class::add(shared_ptr<Constructor>ctor,visibility_t vis){
@@ -83,6 +85,10 @@ void Class::add(shared_ptr<Attribute>attr,visibility_t vis){
 // add assign operator
 void Class::add(shared_ptr<StandardAssignOperator>attr,visibility_t vis){
   assignops_[vis].push_back(attr);
+}
+// add friend function
+void Class::add(shared_ptr<Function>func){
+  friendfuncs_.push_back(func);
 }
 // convert reftype to a string
 string const&Class::visibility2string(visibility_t vis){
