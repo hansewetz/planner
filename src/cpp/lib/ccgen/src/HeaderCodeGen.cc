@@ -199,7 +199,6 @@ void HeaderCodeGen::generate(std::shared_ptr<TranslationUnit>tu){
     em_.nl();
     em_.emit("}");  
   }
-  // NOTE! Not yet done
 }
 // generate ctors
 void HeaderCodeGen::generateCtors(shared_ptr<Class>cl,Class::visibility_t vis){

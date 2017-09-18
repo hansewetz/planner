@@ -1,10 +1,10 @@
 # To be built
 LOCAL_TARGET    = $(PROJECT_ROOT)/artefacts/bin/ccgen
 LOCAL_SOTARGET  = 
-LOCAL_OBJS      = ccgen.o
+LOCAL_OBJS      = ccgen.o Operation.o NopOperation.o BasicTuOperation.o
 
 # Control.
-LOCAL_LIBS      = -lccgen \
+LOCAL_LIBS      = -lccgen -lutils \
 	                -lboost_log -lboost_program_options \
 	                -licuuc -licui18n -licudata -lpthread
 LOCAL_LIBPATH   = -L${PROJECT_ROOT}/artefacts/lib

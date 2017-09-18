@@ -1,21 +1,8 @@
-// NOTE!
-#include "ccgen/Method.h"
-#include "ccgen/Type.h"
-#include "ccgen/Parameter.h"
-#include "ccgen/Method.h"
-#include "ccgen/Constructor.h"
-#include "ccgen/StandardConstructor.h"
-#include "ccgen/Destructor.h"
-#include "ccgen/Attribute.h"
-#include "ccgen/Class.h"
-#include "ccgen/StandardAssignOperator.h"
-#include "ccgen/TranslationUnit.h"
-#include "ccgen/StandardTranslationUnit.h"
-#include "ccgen/Headerfile.h"
-#include "ccgen/HeaderCodeGen.h"
+// internal
+#include "NopOperation.h"
+#include "BasicTuOperation.h"
 
 // boost
-#include <boost/program_options.hpp>
 #include <boost/log/trivial.hpp>
 
 // std
@@ -27,92 +14,54 @@ using namespace std;
 using namespace ccgen;
 namespace po=boost::program_options;
 
-// NOTE! Should go into a library
+// ----------------------- operations that can be performed ----------------------------
 namespace{
+string OP_NOP="nop";
+string OP_BASIC_TU="btu";
+
+// name of this program
+string progname;
+
 // print usage information and exit
-void usage(po::options_description const&options){
-  cerr<<options;
+void usage(){
+  cerr<<"usage: "<<progname<<" [nop|btu] params ... [--help]"<<endl;
   exit(1);
 }
+// set debug level
+void setDebugLevel(int level){
+  // get log level
+  utils::UtilsLogLevel utilLevel;
+  if(level==1){
+    utilLevel=utils::UtilsLogLevel::NORMAL;
+  }else
+  if(level==2){
+    utilLevel=utils::UtilsLogLevel::DEBUG;
+  }else{
+    utilLevel=utils::UtilsLogLevel::TRACE;
+  }
+  utils::initBoostLogging(utilLevel);
 }
-// cmd line parameters
-namespace{
-  string progname;                         // name of this program
-  bool help=false;                         // print help info and exit
-  bool debug=false;                        // set debug level (1,2,3)
-  bool print=false;                        // print cmd line parameters
-
-  // program options
-  po::options_description options{string("usage: -h")};
-}
-namespace{
-// print all command line parameters
-void printCmdlineParameters(){
-  cout<<"-------------------- cmdline parameters (start) ---------------"<<endl;
-  cout<<"debug: "<<boolalpha<<debug<<endl;
-  cout<<"print: "<<boolalpha<<print<<endl;
-  cout<<"-------------------- cmdline parameters (end) ---------------"<<endl;
-}
-// parse cmd line parameters
-void processCmdLineParams(int argc,char**argv){
-  // add help option
-  options.add_options()("help,h",po::bool_switch(&help),"help, default: false (optional)");
-  options.add_options()("debug,d",po::bool_switch(&debug),"debug on/off, default: false (optional)");
-  options.add_options()("print,p",po::bool_switch(&print),"print all command line parameters (optional)");
-
-  // process cmd line parameters
-  po::variables_map vm;
-  po::store(po::command_line_parser(argc,argv).options(options).run(),vm);
-  po::notify(vm);
-
-  // if help, print help and exit
-  if(help)usage(options);
-}
-}
+} 
 // main program
 int main(int argc,char**argv){
   progname=argv[0];
+  if(argc<2)usage();
   try{
-    // process cmd line options
-    processCmdLineParams(argc,argv);
-
-    // print cmd line parameters if erquested
-    if(print)printCmdlineParameters();
-
-    // NOTE! Not yet done
-/*
-    auto rettype=make_shared<Type>("std","string",Type::reftype_t::value,true);
-    auto paramtype=make_shared<Type>("std","string",Type::reftype_t::lvalref,true);
-    auto attrtype=make_shared<Type>("std","size_t",Type::reftype_t::value,false);
-    auto param=make_shared<Parameter>("par",paramtype);
-    auto attr=make_shared<Attribute>("attr_",true,false,attrtype);
-    auto cl=make_shared<Class>("Foo");
-    auto ctor=make_shared<Constructor>(vector<shared_ptr<Parameter>>{param});
-    auto copyctor=make_shared<StandardConstructor>(StandardConstructor::type_t::copy,StandardConstructor::impl_t::del);
-    auto movector=make_shared<StandardConstructor>(StandardConstructor::type_t::move,StandardConstructor::impl_t::def);
-    auto assgncopy=make_shared<StandardAssignOperator>(true,StandardAssignOperator::impl_t::del);
-    auto assignmove=make_shared<StandardAssignOperator>(false,StandardAssignOperator::impl_t::def);
-    auto dtor=make_shared<Destructor>(true);
-    auto meth=make_shared<Method>("bar",rettype,vector<shared_ptr<Parameter>>{param},true,Method::virtual_t::pure,true);
-    auto inc=make_shared<Headerfile>("string",false);
-    auto tu=make_shared<TranslationUnit>(cl->name(),"foo");
-    tu->add(cl);
-    tu->add(inc);
-    cl->add(ctor,Class::visibility_t::vpublic);
-    cl->add(copyctor,Class::visibility_t::vpublic);
-    cl->add(movector,Class::visibility_t::vpublic);
-    cl->add(assgncopy,Class::visibility_t::vpublic);
-    cl->add(assignmove,Class::visibility_t::vpublic);
-    cl->add(dtor,Class::visibility_t::vpublic);
-    cl->add(meth,Class::visibility_t::vpublic);
-    cl->add(attr,Class::visibility_t::vprivate);
-*/
-    shared_ptr<TranslationUnit>tu=make_shared<StandardTranslationUnit>("Foo","foo");
-
-    // NOTE! test generation of code
-    shared_ptr<CodeGen>hgen=make_shared<HeaderCodeGen>(cout);
-    hgen->generate(tu);
-    cout<<endl;
+    // check which operatikon to execute
+    // create operation object
+    shared_ptr<Operation>op;
+    string operation=argv[1];
+    if(operation==OP_NOP){
+      op=make_shared<NopOperation>(progname,argc-1,argv+1);
+    }else
+    if(operation==OP_BASIC_TU){
+      op=make_shared<BasicTuOperation>(progname,argc-1,argv+1);
+    }else{
+      usage();
+    }
+    setDebugLevel(op->getDebug());
+    if(op->getPrint())op->print();
+    op->execute();
   }
   catch(exception const&e){
     BOOST_LOG_TRIVIAL(error)<<"caught exception: "<<e.what();
