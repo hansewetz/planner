@@ -190,7 +190,7 @@ void HeaderCodeGen::generate(std::shared_ptr<TranslationUnit>tu){
   }
   // class(s)
   for(auto cl:tu->classes()){
-    em_.emit("// "s+cl->name());
+    em_.emit("// "s+cl->name()+" class");
     em_.nl();
     generate(cl);
   }

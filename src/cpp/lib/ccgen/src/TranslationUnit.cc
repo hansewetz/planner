@@ -9,6 +9,10 @@ ostream&operator<<(ostream&os,TranslationUnit const&tu){
   return os;
 }
 // ctor
+TranslationUnit::TranslationUnit(std::string const&name):
+    TranslationUnit(name,vector<string>{},vector<shared_ptr<Class>>{},vector<shared_ptr<Headerfile>>{}){
+}
+// ctor
 TranslationUnit::TranslationUnit(std::string const&name,std::string const&nspace):
     TranslationUnit(name,vector<string>{nspace},vector<shared_ptr<Class>>{},vector<shared_ptr<Headerfile>>{}){
 }

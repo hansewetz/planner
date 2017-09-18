@@ -12,8 +12,17 @@ using namespace std;
 namespace ccgen{
 
 // ctor
+StandardTranslationUnit::StandardTranslationUnit(string const&classname):
+    TranslationUnit(classname){
+  addStandardFunctions(classname);
+}
+// ctor
 StandardTranslationUnit::StandardTranslationUnit(string const&classname,string const&nspace):
     TranslationUnit(classname,nspace){
+  addStandardFunctions(classname);
+}
+// helper function
+void StandardTranslationUnit::addStandardFunctions(string const&classname){
   // add header file for iosfwd
   add(make_shared<Headerfile>("iosfwd",false));
 

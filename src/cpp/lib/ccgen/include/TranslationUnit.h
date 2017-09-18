@@ -16,6 +16,7 @@ public:
   friend std::ostream&operator<<(std::ostream&os,TranslationUnit const&tu);
 
   // ctors,assign,dtor
+  TranslationUnit(std::string const&name);
   TranslationUnit(std::string const&name,std::string const&nspace);
   TranslationUnit(std::string const&name,std::vector<std::string>const&namespaces,
                   std::vector<std::shared_ptr<Class>>classes,
