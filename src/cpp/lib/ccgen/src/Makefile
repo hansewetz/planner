@@ -4,7 +4,7 @@ LOCAL_SOTARGET  = $(PROJECT_ROOT)/artefacts/lib/libccgen.so
 LOCAL_OBJS      = Type.o Parameter.o Attribute.o Method.o Function.o \
 	                CodeGen.o HeaderCodeGen.o Class.o Constructor.o Destructor.o StandardAssignOperator.o \
 	                StandardConstructor.o TranslationUnit.o Headerfile.o StandardTranslationUnit.o \
-	                Emitter.o
+	                Emitter.o SourceCodeGen.o
 
 # Control.
 LOCAL_LIBS      =

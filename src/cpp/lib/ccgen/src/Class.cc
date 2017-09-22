@@ -2,7 +2,7 @@
 #include "ccgen/Method.h"
 #include "ccgen/Attribute.h"
 #include "ccgen/Function.h"
-#include "utils/utility.h"
+#include "utils/throw.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/log/trivial.hpp>
 #include <iostream>

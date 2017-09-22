@@ -1,6 +1,6 @@
 #include "ccgen/Constructor.h"
 #include "ccgen/Parameter.h"
-#include "utils/utility.h"
+#include "utils/throw.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/log/trivial.hpp>
 #include <map>
