@@ -1,6 +1,6 @@
 # To be built
 LOCAL_TARGET    =  
-LOCAL_SOTARGET  = $(PROJECT_ROOT)/libsqlite-modern.so
+LOCAL_SOTARGET  = $(PROJECT_ROOT)/artefacts/lib/libsqlite-modern.so
 LOCAL_OBJS      = sqlite3.o sqlite_modern_cpp.o
 
 # Control.
