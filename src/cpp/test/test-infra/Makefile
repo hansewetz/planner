@@ -4,8 +4,8 @@ LOCAL_SOTARGET  =
 LOCAL_OBJS      = test1.o 
 
 # Control.
-LOCAL_LIBS      = 
-LOCAL_LIBPATH   =
+LOCAL_LIBS      = -ltask -ltask-persist-sqlite3
+LOCAL_LIBPATH   = -L${PROJECT_ROOT}/artefacts/lib
 LOCAL_INCPATH   = 
 LOCAL_DEFINES   = 
 LOCAL_CXXFLAGS  = 
