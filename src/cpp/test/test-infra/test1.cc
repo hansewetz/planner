@@ -8,4 +8,6 @@ using namespace planner;
 // test program for infrastructure
 int main(){
   shared_ptr<TaskPersistManager>pmgr=make_shared<TaskPersistManagerSqlite3>();
+  auto tmgr=make_shared<TaskManager>(pmgr);
+  cout<<*tmgr<<endl;
 }
