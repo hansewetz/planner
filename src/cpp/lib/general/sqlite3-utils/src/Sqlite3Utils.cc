@@ -1,6 +1,6 @@
-#include "sqlite3-utils/Sqlite3Utils.h"
-#include "utils/throw.h"
-#include "sqlite-modern/sqlite_modern_cpp.h"
+#include "general/sqlite3-utils/Sqlite3Utils.h"
+#include "general/utils/throw.h"
+#include "general/sqlite-modern/sqlite_modern_cpp.h"
 #include "boost/filesystem.hpp"
 #include <cstdlib>
 namespace fs=boost::filesystem;

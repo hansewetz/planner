@@ -1,8 +1,8 @@
-#include "task/TaskManager.h"
-#include "task/Task.h"
-#include "task-persist-sqlite3/TaskPersistManagerSqlite3.h"
-#include "sqlite3-utils/Sqlite3Utils.h"
-#include "sqlite-modern/sqlite3.h"
+#include "business/task/TaskManager.h"
+#include "business/task/Task.h"
+#include "persist/task-persist-sqlite3/TaskPersistManagerSqlite3.h"
+#include "general/sqlite3-utils/Sqlite3Utils.h"
+#include "general/sqlite-modern/sqlite3.h"
 #include <iostream>
 using namespace std;
 using namespace planner;

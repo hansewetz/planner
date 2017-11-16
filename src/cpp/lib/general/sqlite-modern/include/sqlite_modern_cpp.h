@@ -6,9 +6,9 @@
 #include <ctime>
 #include <tuple>
 
-#include <sqlite-modern/sqlite3.h>
+#include <general/sqlite-modern/sqlite3.h>
 
-#include <sqlite-modern/sqlite_modern_cpp/utility/function_traits.h>
+#include <general/sqlite-modern/sqlite_modern_cpp/utility/function_traits.h>
 
 namespace sqlite {
 

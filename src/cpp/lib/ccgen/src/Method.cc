@@ -1,7 +1,7 @@
 #include "ccgen/Method.h"
 #include "ccgen/Type.h"
 #include "ccgen/Parameter.h"
-#include "utils/throw.h"
+#include "general/utils/throw.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/log/trivial.hpp>
 #include <map>

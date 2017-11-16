@@ -1,5 +1,5 @@
-#include "task-persist-sqlite3/TaskPersistManagerSqlite3.h"
-#include "sqlite-modern/sqlite3.h"
+#include "persist/task-persist-sqlite3/TaskPersistManagerSqlite3.h"
+#include "general/sqlite-modern/sqlite3.h"
 #include <iostream>
 using namespace std;
 namespace planner{
