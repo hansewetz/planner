@@ -1,3 +1,3 @@
-SUBDIRS = ccgen sqlite-modern task task-persist-sqlite3 utils sqlite3-utils
+SUBDIRS = ccgen task utils sqlite3
 
 include $(PROJECT_ROOT)/env/makerules/subdirs.rules
