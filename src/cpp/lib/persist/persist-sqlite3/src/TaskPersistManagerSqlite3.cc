@@ -1,4 +1,4 @@
-#include "persist/task-persist-sqlite3/TaskPersistManagerSqlite3.h"
+#include "persist/persist-sqlite3/TaskPersistManagerSqlite3.h"
 #include "business/task/Task.h"
 #include "general/sqlite-modern/sqlite_modern_cpp.h"
 #include <boost/log/trivial.hpp>
@@ -28,5 +28,17 @@ shared_ptr<Task>TaskPersistManagerSqlite3::getTaskById(string const&id){
     };
   BOOST_LOG_TRIVIAL(debug)<<"TaskPersistManagerSqlite3Impl::getTaskById: loaded task: "<<boolalpha<<(ret?true:false);
   return ret;
+}
+// save a task
+void TaskPersistManagerSqlite3::saveAux(shared_ptr<Task>task){
+  if(task->indb()){
+    BOOST_LOG_TRIVIAL(debug)<<"TaskPersistManagerSqlite3Impl::save: updating task, id: "<<task->id();
+    // NOTE! Not yet done
+  }else{
+    BOOST_LOG_TRIVIAL(debug)<<"TaskPersistManagerSqlite3Impl::save: inserting task, id: "<<task->id();
+    string sql="insert into task (id,box,type,isrt_tmstmp,lst_upd_tmstmp) values (?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);";
+// NOTE! hard coded data
+    *db_<<sql<<task->id()<<8<<9;
+  }
 }
 }

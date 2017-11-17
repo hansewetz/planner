@@ -14,4 +14,7 @@ Task::Task(string const&id,bool indb):
 // getters
 string const&Task::id()const noexcept{return id_;}
 bool Task::indb()const noexcept{return indb_;}
+
+// setters
+void Task::setIndb(){indb_=true;}
 }

@@ -24,6 +24,9 @@ public:
 
   // load functions
   virtual std::shared_ptr<Task>getTaskById(std::string const&id)override;
+
+  // save functions
+  virtual void saveAux(std::shared_ptr<Task>task)override;
 private:
   std::shared_ptr<sqlite::database>db_;
 };

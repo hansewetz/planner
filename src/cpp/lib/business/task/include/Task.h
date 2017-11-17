@@ -18,8 +18,9 @@ public:
   std::string const&id()const noexcept;
   bool indb()const noexcept;
 private:
-  // tasks only created by TaskPersistManager
+  // methods called only by persist-manager
   Task(std::string const&id,bool persisted);
+  void setIndb();
 
   // private attr
   std::string const id_;
