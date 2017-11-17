@@ -7,18 +7,14 @@
 using namespace std;
 using namespace planner;
 
-/*
-NOTE!
-(1) add namespace for sqlite3 stuff
-(2) create separate directory fro sqlite (modern + utils)
-*/
-
 // test program for infrastructure
 int main(){
-  // NOTE! must add utils to open database
-  auto db=openDb("junk.db");
-
+  // create a task manager
+  auto db=openDb("test1.db");
   shared_ptr<TaskPersistManager>pmgr=make_shared<TaskPersistManagerSqlite3>(db);
   auto tmgr=make_shared<TaskManager>(pmgr);
-  cout<<*tmgr<<endl;
+
+  // get a task
+  auto task=pmgr->getTaskById("12345");
+  cout<<"task: "<<*task<<endl;
 }

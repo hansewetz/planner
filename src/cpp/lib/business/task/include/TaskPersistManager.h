@@ -1,6 +1,11 @@
 #pragma once
-#include<iosfwd>
+#include <string>
+#include <memory>
+#include <iosfwd>
 namespace planner{
+
+// forward decl
+class Task;
 
 // TaskPersistManager class
 class TaskPersistManager{
@@ -13,6 +18,12 @@ public:
   TaskPersistManager&operator=(TaskPersistManager const&)=default;
   TaskPersistManager&operator=(TaskPersistManager&&)=default;
   virtual~TaskPersistManager()=default;
+
+  // load functions
+  virtual std::shared_ptr<Task>getTaskById(std::string const&id)=0;
+protected:
+  // create a task object (new or existing)
+  std::shared_ptr<Task>createTaskAux(std::string const&id,bool indb);
 private:
 };
 }

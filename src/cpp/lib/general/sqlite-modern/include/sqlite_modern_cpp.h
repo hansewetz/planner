@@ -7,7 +7,6 @@
 #include <tuple>
 
 #include <general/sqlite-modern/sqlite3.h>
-
 #include <general/sqlite-modern/sqlite_modern_cpp/utility/function_traits.h>
 
 namespace sqlite {

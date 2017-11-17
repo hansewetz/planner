@@ -7,8 +7,8 @@ LOCAL_OBJS      = test1.o
 LOCAL_LIBS      = -ltask \
 	          -ltask-persist-sqlite3  \
                   -lsqlite3utils -lsqlite-modern \
-	          -lboost_filesystem -lboost_system \
-	          -ldl
+	          -lboost_filesystem -lboost_system -lboost_log \
+	          -lpthread -ldl
 
 LOCAL_LIBPATH   = -L${PROJECT_ROOT}/artefacts/lib
 LOCAL_INCPATH   = 

@@ -6,7 +6,7 @@ namespace planner{
 // Task class
 class Task{
 friend std::ostream&operator<<(std::ostream&os,Task const&task);
-friend class TaskManager;
+friend class TaskPersistManager;
 public:
   Task(Task const&)=delete;
   Task(Task&&)=delete;
@@ -16,11 +16,13 @@ public:
 
   // getters
   std::string const&id()const noexcept;
+  bool indb()const noexcept;
 private:
-  // tasks only created by TaskManager
-  Task(std::string const&id);
+  // tasks only created by TaskPersistManager
+  Task(std::string const&id,bool persisted);
 
   // private attr
-  std::string const&id_;
+  std::string const id_;
+  bool indb_;
 };
 }

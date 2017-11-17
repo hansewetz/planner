@@ -4,6 +4,7 @@
 # build environment root and project root
 export ENV_ROOT=`pwd`
 export PROJECT_ROOT=${ENV_ROOT}/..
+export ARTEFACTS=${PROJECT_ROOT}/artefacts
 
 # option for gcc compiler (see: makerules/build.rules)
 # (this is setup so that we can compile against gcc-=version 7)

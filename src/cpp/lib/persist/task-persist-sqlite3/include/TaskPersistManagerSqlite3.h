@@ -9,7 +9,7 @@ namespace sqlite{class database;}
 namespace planner{
 
 // forward decl
-class TaskPersistManagerImpl;
+class Task;
 
 // TaskPersistManagerSqlite3 class
 class TaskPersistManagerSqlite3:public TaskPersistManager{
@@ -20,9 +20,11 @@ public:
   TaskPersistManagerSqlite3(TaskPersistManagerSqlite3&&)=delete;
   TaskPersistManagerSqlite3&operator=(TaskPersistManagerSqlite3 const&)=delete;
   TaskPersistManagerSqlite3&operator=(TaskPersistManagerSqlite3&&)=delete;
-  virtual~TaskPersistManagerSqlite3();
+  virtual~TaskPersistManagerSqlite3()=default;
+
+  // load functions
+  virtual std::shared_ptr<Task>getTaskById(std::string const&id)override;
 private:
-  // implementation
-  std::unique_ptr<TaskPersistManager>impl_;
+  std::shared_ptr<sqlite::database>db_;
 };
 }
