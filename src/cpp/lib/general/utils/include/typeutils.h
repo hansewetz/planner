@@ -1,5 +1,4 @@
-#ifndef __TYPE_UTILS_HH__
-#define __TYPE_UTILS_HH__
+#pragma once
 #include <string>
 #include <cxxabi.h>
 namespace utils{
@@ -10,4 +9,3 @@ string type2string(T t){
   return std::string("(")+abi::__cxa_demangle(typeid(T).name(),0,0,&status)+")";
 }
 }
-#endif

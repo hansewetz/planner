@@ -24,7 +24,7 @@ shared_ptr<Task>TaskPersistManagerSqlite3::getTaskById(string const&id){
   *db_<<sql<<id>>[this,&ret,id](string box,int type,string isrttmstmp,string lstupdtmstmp){
       BOOST_LOG_TRIVIAL(debug)<<"read data for task-id: "<<id<<" --> "<<"box: "<<box<<", type: "<<type<<
                                 ", isrt_tmstmp: "<<isrttmstmp<<"lst_upd_tmstmp: "<<lstupdtmstmp;
-      ret=createTaskAux(id,true);
+      ret=createTaskAux(id,true,static_cast<Task::type_t>(type));
     };
   BOOST_LOG_TRIVIAL(debug)<<"TaskPersistManagerSqlite3Impl::getTaskById: loaded task: "<<boolalpha<<(ret?true:false);
   return ret;
@@ -38,7 +38,12 @@ void TaskPersistManagerSqlite3::saveAux(shared_ptr<Task>task){
     BOOST_LOG_TRIVIAL(debug)<<"TaskPersistManagerSqlite3Impl::save: inserting task, id: "<<task->id();
     string sql="insert into task (id,box,type,isrt_tmstmp,lst_upd_tmstmp) values (?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);";
 // NOTE! hard coded data
-    *db_<<sql<<task->id()<<8<<9;
+    *db_<<sql<<task->id()<<static_cast<int>(task->type())<<9;
   }
+}
+// get all tasks sitting in a specific box
+vector<shared_ptr<Task>>TaskPersistManagerSqlite3::getTasksByBox(int boxid){
+  // NOTE! Not yet done
+  return vector<shared_ptr<Task>>{};
 }
 }

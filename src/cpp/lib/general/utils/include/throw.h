@@ -1,5 +1,4 @@
-#ifndef __THROW_H__
-#define __THROW_H__
+#pragma once
 #include <string>
 #include <sstream>
 #include <stdexcept>
@@ -13,4 +12,3 @@ namespace utils{
     throw std::runtime_error(s);\
 }
 }
-#endif

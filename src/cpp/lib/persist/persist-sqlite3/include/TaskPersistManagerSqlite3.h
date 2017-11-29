@@ -1,5 +1,6 @@
 #pragma once
 #include "business/task/TaskPersistManager.h"
+#include <vector>
 #include <memory>
 #include<iosfwd>
 
@@ -24,6 +25,7 @@ public:
 
   // load functions
   virtual std::shared_ptr<Task>getTaskById(std::string const&id)override;
+  virtual std::vector<std::shared_ptr<Task>>getTasksByBox(int boxid)override;
 
   // save functions
   virtual void saveAux(std::shared_ptr<Task>task)override;

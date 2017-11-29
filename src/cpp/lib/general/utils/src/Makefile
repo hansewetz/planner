@@ -1,7 +1,7 @@
 # To be built
 LOCAL_TARGET    =
 LOCAL_SOTARGET  = $(PROJECT_ROOT)/artefacts/lib/libutils.so
-LOCAL_OBJS      = logUtils.o
+LOCAL_OBJS      = logUtils.o uuidUtils.o
 
 # Control.
 LOCAL_LIBS      =

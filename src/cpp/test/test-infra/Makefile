@@ -4,7 +4,7 @@ LOCAL_SOTARGET  =
 LOCAL_OBJS      = test1.o 
 
 # Control.
-LOCAL_LIBS      = -ltask \
+LOCAL_LIBS      = -ltask -lutils \
 	          -ltask-persist-sqlite3  \
                   -lsqlite3utils -lsqlite-modern \
 	          -lboost_filesystem -lboost_system -lboost_log \

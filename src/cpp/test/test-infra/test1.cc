@@ -9,10 +9,9 @@ using namespace planner;
 
 // test program for infrastructure
 int main(){
-  // create a task manager
+  // create a task persist manager
   auto db=openDb("test1.db");
   shared_ptr<TaskPersistManager>pmgr=make_shared<TaskPersistManagerSqlite3>(db);
-  auto tmgr=make_shared<TaskManager>(pmgr);
 
   // get a task
 /*
@@ -21,6 +20,9 @@ int main(){
 */
 
   // create a task and save it
-  auto task=pmgr->create("Hello1");
+  auto task=pmgr->create(Task::type_t::oneshot);
   pmgr->save(task);
+
+  // create a task manager
+  auto tmgr=make_shared<TaskManager>(pmgr);
 }

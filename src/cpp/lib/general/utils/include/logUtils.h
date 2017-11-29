@@ -1,5 +1,4 @@
-#ifndef __LOG_UTILS_H__
-#define __LOG_UTILS_H__
+#pragma once
 #include <string>
 namespace utils{
 
@@ -11,4 +10,3 @@ void initBoostFileLogging(UtilsLogLevel level,std::string const&path,std::string
 void initBoostLogging(UtilsLogLevel level);
 void initBoostLogging(bool debug);
 }
-#endif

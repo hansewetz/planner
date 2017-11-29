@@ -1,5 +1,4 @@
-#ifndef __SIG_GUARD_H__
-#define __SIG_GUARD_H__
+#pragma once
 #include "throw.h"
 #include <csignal>
 #include <stack>
@@ -52,4 +51,3 @@ public:
     sighandler_t fsig_;
 };
 }
-#endif
